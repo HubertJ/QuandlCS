@@ -42,7 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\TypeConverter.cs" />
-    <Compile Include="Interfaces\IQuandlRequest.cs" />
+    <Compile Include="Interfaces\IQuandlGETRequestBuilder.cs" />
+    <Compile Include="Interfaces\IQuandlRequestBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\QuandlDownloadRequest.cs" />

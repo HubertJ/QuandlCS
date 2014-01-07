@@ -10,7 +10,7 @@ namespace QuandlCS.Requests
   /// <summary>
   /// The class to represent a download request from Quandl
   /// </summary>
-  public class QuandlDownloadRequest : IQuandlRequest
+  public class QuandlDownloadRequest : IQuandlRequestBuilder
   {
     #region Construction
 
@@ -33,15 +33,6 @@ namespace QuandlCS.Requests
     }
 
     /// <summary>
-    /// Get the download request string
-    /// </summary>
-    /// <returns>The download request string</returns>
-    public string GetRequestString()
-    {
-      return CreateRequestString();
-    }
-
-    /// <summary>
     /// Resets the download request object
     /// </summary>
     public void Reset(bool resetAPIKey)
@@ -50,7 +41,8 @@ namespace QuandlCS.Requests
       {
         APIKey = string.Empty;
       }
-      
+
+      _datacodes.Clear();
       Datacode = new Datacode();
       StartDate = DateTime.MinValue;
       EndDate = DateTime.MinValue;
@@ -63,7 +55,29 @@ namespace QuandlCS.Requests
 
     #endregion
 
+    #region IQuandlGETRequestBuilder
+
+    /// <summary>
+    /// Get the download request string
+    /// </summary>
+    /// <returns>The download request string</returns>
+    public string GetGETRequestString()
+    {
+      return CreateRequestString();
+    }
+
+    #endregion
+
     #region QuandlDownloadRequest Members
+
+    /// <summary>
+    /// Adds a datacode to the download request builder
+    /// </summary>
+    /// <param name="datacode"></param>
+    public void AddDatacode(Datacode datacode)
+    {
+      _datacodes.Add(datacode);
+    }
 
     /// <summary>
     /// The datacode 
@@ -233,7 +247,8 @@ namespace QuandlCS.Requests
 
       if (Format == FileFormats.CSV)
       {
-        sb.Append(APIHeader)
+        sb.Append('&')
+          .Append(APIHeader)
           .Append(!Headers);
       }
 
@@ -262,6 +277,8 @@ namespace QuandlCS.Requests
 
     private DateTime _startDate;
     private DateTime _endDate;
+
+    private HashSet<Datacode> _datacodes = new HashSet<Datacode>();
     
     #endregion
 

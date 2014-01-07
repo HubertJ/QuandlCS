@@ -28,11 +28,11 @@ namespace QuandlCS
         SearchQuery = "oil"
       };
 
-      Console.WriteLine(downloadRequests.GetRequestString());
+      Console.WriteLine(downloadRequests.GetGETRequestString());
       Console.WriteLine();
-      Console.WriteLine(metadataRequest.GetRequestString());
+      Console.WriteLine(metadataRequest.GetGETRequestString());
       Console.WriteLine();
-      Console.WriteLine(searchRequest.GetRequestString());
+      Console.WriteLine(searchRequest.GetGETRequestString());
 
       Console.ReadKey();
     }

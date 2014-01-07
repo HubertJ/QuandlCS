@@ -2,9 +2,9 @@
 namespace QuandlCS.Interfaces
 {
   /// <summary>
-  /// The interface that all Quandl API Requests implement
+  /// The interface that all Quandl API Request Builders implement
   /// </summary>
-  public interface IQuandlRequest
+  public interface IQuandlRequestBuilder
   {
     /// <summary>
     /// The API key to use when connecting to Quandl
@@ -14,12 +14,6 @@ namespace QuandlCS.Interfaces
       get;
       set;
     }
-
-    /// <summary>
-    /// Get the request string from the object
-    /// </summary>
-    /// <returns>The request string for this API request</returns>
-    string GetRequestString();
 
     /// <summary>
     /// Resets the request object

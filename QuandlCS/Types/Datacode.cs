@@ -1,4 +1,5 @@
 ﻿
+using System;
 namespace QuandlCS.Types
 {
   /// <summary>
@@ -47,8 +48,19 @@ namespace QuandlCS.Types
     /// </example>
     public string Source
     {
-      get;
-      set;
+      get
+      {
+        return _source;
+      }
+
+      set
+      {
+        if (_source != value)
+        {
+          Validate("Source", value);
+          _source = value;
+        }
+      }
     }
 
     /// <summary>
@@ -60,8 +72,19 @@ namespace QuandlCS.Types
     /// </example>
     public string Code
     {
-      get;
-      set;
+      get
+      {
+        return _code;
+      }
+
+      set
+      {
+        if (_code != value)
+        {
+          Validate("Code", value);
+          _code = value;
+        }
+      }
     }
 
     /// <summary>
@@ -71,5 +94,26 @@ namespace QuandlCS.Types
     {
       get { return string.Format(@"{0}/{1}", Source, Code); }
     }
+
+    /// <summary>
+    /// Validate that the code supplied is valid
+    /// </summary>
+    /// <param name="propertyName">The name of the property being set</param>
+    /// <param name="data">The data being set</param>
+    private void Validate(string propertyName, string data)
+    {
+      foreach (char character in data)
+      {
+        if (((char.IsLetter(character) && char.IsUpper(character))
+          || (char.IsDigit(character))) == false)
+        {
+          throw new ArgumentException("The code supplied contains invalid characters", propertyName);
+        }
+      }
+    }
+
+    private string _source;
+
+    private string _code;
   }
 }

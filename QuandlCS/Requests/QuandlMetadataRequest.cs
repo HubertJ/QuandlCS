@@ -9,7 +9,7 @@ namespace QuandlCS.Requests
   /// <summary>
   /// A class to represent a metadata request from Quandl
   /// </summary>
-  public class QuandlMetadataRequest : IQuandlRequest
+  public class QuandlMetadataRequest : IQuandlRequestBuilder
   {
     #region Construction
 
@@ -32,15 +32,6 @@ namespace QuandlCS.Requests
     }
 
     /// <summary>
-    /// Get the download request string
-    /// </summary>
-    /// <returns>The download request string</returns>
-    public string GetRequestString()
-    {
-      return CreateRequestString();
-    }
-
-    /// <summary>
     /// Resets the download request object
     /// </summary>
     public void Reset(bool resetAPIKey)
@@ -52,6 +43,19 @@ namespace QuandlCS.Requests
       
       Datacode = new Datacode();
       Format = FileFormats.JSON;
+    }
+
+    #endregion
+
+    #region IQuandlGETRequestBuilder
+
+    /// <summary>
+    /// Get the download request string
+    /// </summary>
+    /// <returns>The download request string</returns>
+    public string GetGETRequestString()
+    {
+      return CreateRequestString();
     }
 
     #endregion
