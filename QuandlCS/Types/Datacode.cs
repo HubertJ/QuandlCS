@@ -90,9 +90,9 @@ namespace QuandlCS.Types
     /// <summary>
     /// The full unique datacode containing the Source and Code
     /// </summary>
-    public string UniqueCode
+    public string GetDatacode(char separator)
     {
-      get { return string.Format(@"{0}/{1}", Source, Code); }
+      return string.Format(@"{0}{1}{2}", Source, separator, Code);
     }
 
     /// <summary>

@@ -6,14 +6,11 @@ using QuandlCS.Types;
 
 namespace QuandlCS.Requests
 {
-  /// <summary>
-  /// A class to represent a metadata request from Quandl
-  /// </summary>
-  public class QuandlMetadataRequest : IQuandlGETRequestBuilder
+  public class QuandlFavouritesRequest : IQuandlGETRequestBuilder
   {
     #region Construction
 
-    public QuandlMetadataRequest()
+    public QuandlFavouritesRequest()
     {
       Reset(true);
     }
@@ -41,14 +38,13 @@ namespace QuandlCS.Requests
         APIKey = string.Empty;
       }
       
-      Datacode = new Datacode();
       Format = FileFormats.JSON;
     }
 
     #endregion
 
     #region IQuandlGETRequestBuilder
-
+    
     /// <summary>
     /// Get the download request string
     /// </summary>
@@ -61,25 +57,6 @@ namespace QuandlCS.Requests
     #endregion
     
     #region QuandlDownloadRequest Members
-
-    /// <summary>
-    /// The datacode 
-    /// </summary>
-    public Datacode Datacode
-    {
-      get
-      {
-        return _datacode;
-      }
-
-      set
-      {
-        if (_datacode != value)
-        {
-          _datacode = value;
-        }
-      }
-    }
 
     /// <summary>
     /// The format to request the data
@@ -113,35 +90,20 @@ namespace QuandlCS.Requests
       ValidateData();
 
       StringBuilder sb = new StringBuilder();
-      sb.Append(Constants.APIDatasetsAddress)
-        .Append('/')
-        .Append(_datacode.GetDatacode('/'))
+      sb.Append(Constants.APIFavouritesAddress)
         .Append(TypeConverter.FileFormatToString(_format))
-        .Append('?');
-
-      if (APIKey != string.Empty)
-      {
-        sb.Append(Constants.APIAuthorization)
-          .Append(APIKey)
-          .Append('&');
-      }
-
-      sb.Append(Constants.APIExcludeData)
-        .Append(true);
+        .Append('?')
+        .Append(Constants.APIAuthorization)
+        .Append(APIKey);
 
       return sb.ToString();
     }
 
     private void ValidateData()
     {
-      if (string.IsNullOrWhiteSpace(_datacode.Source))
+      if (string.IsNullOrWhiteSpace(APIKey))
       {
-        throw new InvalidOperationException("The datacode for this request does not have a Source specified.");
-      }
-
-      if (string.IsNullOrWhiteSpace(_datacode.Code))
-      {
-        throw new InvalidOperationException("The datacode for this request does not have a Code specified.");
+        throw new InvalidOperationException("An authorization token is required for this request");
       }
     }
 
@@ -149,7 +111,6 @@ namespace QuandlCS.Requests
 
     #region Fields
 
-    private Datacode _datacode;
     private FileFormats _format;
 
     #endregion

@@ -10,7 +10,7 @@ namespace QuandlCSTests
   {
     [TestMethod]
     [ExpectedException(typeof(InvalidOperationException))]
-    public void ValidDatacodeSourceRequiredException()
+    public void InvalidDatacodeSource_ThrowsException()
     {
       var request = new QuandlDownloadRequest()
       {
@@ -22,7 +22,7 @@ namespace QuandlCSTests
 
     [TestMethod]
     [ExpectedException(typeof(InvalidOperationException))]
-    public void ValidDatacodeCodeRequiredException()
+    public void InvalidDatacodeCode_ThrowsException()
     {
       var request = new QuandlDownloadRequest()
       {
@@ -33,7 +33,7 @@ namespace QuandlCSTests
     }
 
     [TestMethod]
-    public void ValidTruncationUsed()
+    public void ValidTruncation_UsedInRequestString()
     {
       var request = new QuandlDownloadRequest()
       {
@@ -46,7 +46,7 @@ namespace QuandlCSTests
     }
 
     [TestMethod]
-    public void ZeroTruncationNotUsed()
+    public void ZeroTruncation_NotUsedInRequestString()
     {
       var request = new QuandlDownloadRequest()
       {
@@ -59,7 +59,7 @@ namespace QuandlCSTests
     }
 
     [TestMethod]
-    public void CSVFormatHeadersUsed()
+    public void CSVFormat_HeadersUsedInRequestString()
     {
       var request = new QuandlDownloadRequest()
       {
@@ -72,7 +72,7 @@ namespace QuandlCSTests
     }
 
     [TestMethod]
-    public void NonCSVFormatHeadersNotUsed()
+    public void NonCSVFormat_HeadersNotUsedInRequestString()
     {
       var request = new QuandlDownloadRequest()
       {

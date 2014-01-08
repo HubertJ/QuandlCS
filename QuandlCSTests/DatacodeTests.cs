@@ -8,48 +8,53 @@ namespace QuandlCSTests
   public class DatacodeTests
   {
     [TestMethod]
-    public void DatacodeSourceValidCharacters()
+    public void Source_ValidCharacters_NoThrow()
     {
-      var datacode = new Datacode();
-
-      datacode.Source = "PRAGUESE"; // Shouldn't throw
+      var datacode = new Datacode()
+      {
+        Source = "PRAGUESE" // Shouldn't throw
+      };
     }
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentException))]
-    public void DatacodeSourceInvalidCharacters()
+    public void Source_InvalidCharacters_Throw()
     {
-      var datacode = new Datacode();
-
-      datacode.Source = "praguese"; // Should throw
+      var datacode = new Datacode()
+      {
+        Source = "praguese" // Should throw
+      };
     }
 
     [TestMethod]
-    public void DatasourceCodeValidCharacters()
+    public void Code_ValidCharacters_NoThrow()
     {
-      var datacode = new Datacode();
-
-      datacode.Code = "PX"; // Shouldn't throw
+      var datacode = new Datacode()
+      {
+        Code = "PX" // Shouldn't throw
+      };
     }
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentException))]
-    public void DatasourceCodeInvalidCharacters()
+    public void Code_InvalidCharacters_Throw()
     {
-      var datacode = new Datacode();
-
-      datacode.Code = "px"; // Should throw
+      var datacode = new Datacode()
+      {
+        Code = "px" // Should throw
+      };
     }
     
     [TestMethod]
-    public void DatasourceUniqueCorrect()
+    public void GetDatacode_Correct()
     {
-      var datacode = new Datacode();
+      var datacode = new Datacode()
+      {
+        Source = "PRAGUESE",
+        Code = "PX"
+      };
 
-      datacode.Source = "PRAGUESE";
-      datacode.Code = "PX";
-
-      Assert.AreEqual("PRAGUESE/PX", datacode.UniqueCode, "The unique code should be the Source and Code separated by a forward slash");
+      Assert.AreEqual("PRAGUESE/PX", datacode.GetDatacode('/'), "The unique code should be the Source and Code separated by a forward slash");
     }
   }
 }

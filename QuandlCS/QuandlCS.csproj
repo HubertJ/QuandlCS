@@ -41,14 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connection\QuandlConnection.cs" />
+    <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\TypeConverter.cs" />
+    <Compile Include="Interfaces\IQuandlConnection.cs" />
     <Compile Include="Interfaces\IQuandlGETRequestBuilder.cs" />
+    <Compile Include="Interfaces\IQuandlPOSTRequestBuilder.cs" />
     <Compile Include="Interfaces\IQuandlRequestBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\QuandlDownloadRequest.cs" />
+    <Compile Include="Requests\QuandlFavouritesRequest.cs" />
     <Compile Include="Requests\QuandlMetadataRequest.cs" />
+    <Compile Include="Requests\QuandlMultisetRequest.cs" />
     <Compile Include="Requests\QuandlSearchRequest.cs" />
+    <Compile Include="Requests\QuandlUploadRequest.cs" />
     <Compile Include="Types\Datacode.cs" />
     <Compile Include="Types\FileFormats.cs" />
     <Compile Include="Types\Frequencies.cs" />

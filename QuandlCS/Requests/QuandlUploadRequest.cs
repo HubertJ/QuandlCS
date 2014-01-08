@@ -1,4 +1,6 @@
-﻿using QuandlCS.Interfaces;
+﻿using System.Text;
+using QuandlCS.Helpers;
+using QuandlCS.Interfaces;
 
 namespace QuandlCS.Requests
 {
@@ -8,12 +10,22 @@ namespace QuandlCS.Requests
 
     public string GetPOSTRequestString()
     {
-      throw new System.NotImplementedException();
+      return Constants.APIDatasetsImportAddress;
     }
     
     public string GetData()
     {
-      throw new System.NotImplementedException();
+      var sb = new StringBuilder();
+
+      sb.AppendLine("code: FOO");
+      sb.AppendLine("name: My Dataset");
+      sb.AppendLine("description: This is a short time series");
+      sb.AppendLine("headings: Date,Temperature (C),Rainfall (mm)");
+      sb.AppendLine("2012-09-01, 22, 0");
+      sb.AppendLine("2012-09-02, 23, 5");
+      sb.AppendLine("2012-09-03, 18, 1");
+
+      return sb.ToString();
     }
 
     #endregion

@@ -6,7 +6,7 @@ using QuandlCS.Types;
 
 namespace QuandlCS.Requests
 {
-  public class QuandlSearchRequest : IQuandlRequestBuilder
+  public class QuandlSearchRequest : IQuandlGETRequestBuilder
   {
     #region Construction
 
@@ -100,18 +100,18 @@ namespace QuandlCS.Requests
       ValidateData();
 
       StringBuilder sb = new StringBuilder();
-      sb.Append(APIAddress)
+      sb.Append(Constants.APIDatasetsAddress)
         .Append(TypeConverter.FileFormatToString(_format))
         .Append('?');
 
       if (APIKey != string.Empty)
       {
-        sb.Append(APIAuthorization)
+        sb.Append(Constants.APIAuthorization)
           .Append(APIKey)
           .Append('&');
       }
 
-      sb.Append(APIQuery)
+      sb.Append(Constants.APIQuery)
         .Append(SearchQuery);
 
       return sb.ToString();
@@ -130,14 +130,6 @@ namespace QuandlCS.Requests
     #region Fields
 
     private FileFormats _format;
-
-    #endregion
-
-    #region Constants
-
-    private const string APIAddress = "http://www.quandl.com/api/v1/datasets";
-    private const string APIAuthorization = "auth_token=";
-    private const string APIQuery = "query=";
 
     #endregion
   }

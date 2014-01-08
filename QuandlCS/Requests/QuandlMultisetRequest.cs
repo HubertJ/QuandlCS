@@ -1,27 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using QuandlCS.Helpers;
 using QuandlCS.Interfaces;
 using QuandlCS.Types;
 
 namespace QuandlCS.Requests
 {
-  /// <summary>
-  /// The class to represent a download request from Quandl
-  /// </summary>
-  public class QuandlDownloadRequest : IQuandlGETRequestBuilder
+  public class QuandlMultisetRequest : IQuandlGETRequestBuilder
   {
     #region Construction
 
-    public QuandlDownloadRequest()
+    /// <summary>
+    /// 
+    /// </summary>
+    public QuandlMultisetRequest()
     {
       Reset(true);
     }
 
     #endregion
 
-    #region IQuandlRequest Members
+    #region IQuandlGETRequestBuilder Members
+
+    public string GetGETRequestString()
+    {
+      return CreateRequestString();
+    }
+
+    #endregion
+
+    #region IQuandlRequestBuilder Members
 
     /// <summary>
     /// The API key to use for the request
@@ -32,9 +43,6 @@ namespace QuandlCS.Requests
       set;
     }
 
-    /// <summary>
-    /// Resets the download request object
-    /// </summary>
     public void Reset(bool resetAPIKey)
     {
       if (resetAPIKey)
@@ -42,50 +50,39 @@ namespace QuandlCS.Requests
         APIKey = string.Empty;
       }
 
-      Datacode = new Datacode();
-      StartDate = DateTime.MinValue;
-      EndDate = DateTime.MinValue;
-      Frequency = Frequencies.None;
-      Transformation = Transformations.None;
-      Truncation = 0;
-      Format = FileFormats.CSV;
-      Headers = true;
+      _datacolumns = new StringBuilder();
     }
 
     #endregion
 
-    #region IQuandlGETRequestBuilder
-
-    /// <summary>
-    /// Get the download request string
-    /// </summary>
-    /// <returns>The download request string</returns>
-    public string GetGETRequestString()
-    {
-      return CreateRequestString();
-    }
-
-    #endregion
 
     #region QuandlDownloadRequest Members
 
     /// <summary>
-    /// The datacode 
+    /// Add a column to the collection of columns to be returned
     /// </summary>
-    public Datacode Datacode
+    /// <param name="datasource">The datasource</param>
+    /// <param name="column">The column to add</param>
+    public void AddColumn(Datacode datasource, int column)
     {
-      get 
+      if (_datacolumns.Length > 0)
       {
-        return _datacode; 
+        _datacolumns.Append(',');
       }
+      _datacolumns.Append(string.Format("{0}.{1}", datasource.GetDatacode('.'), column));
+    }
 
-      set
+    /// <summary>
+    /// Add all columns for the supplied datasource
+    /// </summary>
+    /// <param name="datasource">The datasource</param>
+    public void AddColumns(Datacode datasource)
+    {
+      if (_datacolumns.Length > 0)
       {
-        if (_datacode != value)
-        {
-          _datacode = value;
-        }
+        _datacolumns.Append(',');
       }
+      _datacolumns.Append(datasource.GetDatacode('.'));
     }
 
     /// <summary>
@@ -93,9 +90,9 @@ namespace QuandlCS.Requests
     /// </summary>
     public FileFormats Format
     {
-      get 
+      get
       {
-        return _format; 
+        return _format;
       }
 
       set
@@ -171,7 +168,7 @@ namespace QuandlCS.Requests
 
       set
       {
-        _endDate = value;  
+        _endDate = value;
       }
     }
 
@@ -187,17 +184,18 @@ namespace QuandlCS.Requests
     #endregion
 
     #region Implementation
-    
+
     private string CreateRequestString()
     {
       ValidateData();
 
       StringBuilder sb = new StringBuilder();
-      sb.Append(Constants.APIDatasetsAddress)
-        .Append('/')
-        .Append(_datacode.GetDatacode('/'))
+      sb.Append(Constants.APIMultisetsAddress)
         .Append(TypeConverter.FileFormatToString(_format))
-        .Append('?');      
+        .Append('?')
+        .Append(Constants.APIColumns)
+        .Append(_datacolumns.ToString())
+        .Append('?');
 
       if (APIKey != string.Empty)
       {
@@ -248,14 +246,9 @@ namespace QuandlCS.Requests
 
     private void ValidateData()
     {
-      if (string.IsNullOrWhiteSpace(_datacode.Source))
+      if (_datacolumns.Length < 0)
       {
-        throw new InvalidOperationException("The datacode for this request does not have a Source specified.");
-      }
-
-      if (string.IsNullOrWhiteSpace(_datacode.Code))
-      {
-        throw new InvalidOperationException("The datacode for this request does not have a Code specified.");
+        throw new InvalidOperationException("You must first specify datacolumns for a multiset request");
       }
     }
 
@@ -263,12 +256,13 @@ namespace QuandlCS.Requests
 
     #region Fields
 
-    private Datacode _datacode;
     private FileFormats _format;
 
     private DateTime _startDate;
     private DateTime _endDate;
-        
+
+    private StringBuilder _datacolumns;
+    
     #endregion
   }
 }
