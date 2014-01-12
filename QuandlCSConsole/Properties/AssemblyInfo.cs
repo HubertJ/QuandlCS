@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("QuandlCS")]
-[assembly: AssemblyDescription("A library to wrap the Quandl REST API to allow for querying of Quandl datasets")]
+[assembly: AssemblyTitle("QuandlCSConsole")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("HubertJ")]
-[assembly: AssemblyProduct("QuandlCS")]
+[assembly: AssemblyProduct("QuandlCSConsole")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0ed5ccba-3997-4947-9311-1ca6c9f3a6dd")]
+[assembly: Guid("337a9597-5c7d-4b13-8ab3-9b6036e6df9f")]
 
 // Version information for an assembly consists of the following four values:
 //

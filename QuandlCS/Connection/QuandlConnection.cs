@@ -30,14 +30,14 @@ namespace QuandlCS.Connection
     {
       throw new InvalidOperationException("THIS DOESN'T WORK AT THE MOMENT");
 
-      string data = string.Empty;
-      using (WebClient client = new WebClient())
-      {
-        string requestString = request.GetPOSTRequestString();
-        string requestData = request.GetData();
-        data = client.UploadString(requestString, "POST", requestData);
-      }
-      return data;
+      //string data = string.Empty;
+      //using (WebClient client = new WebClient())
+      //{
+      //  string requestString = request.GetPOSTRequestString();
+      //  string requestData = request.GetData();
+      //  data = client.UploadString(requestString, "POST", requestData);
+      //}
+      //return data;
     }
 
     public string Request(IQuandlRequestBuilder request)

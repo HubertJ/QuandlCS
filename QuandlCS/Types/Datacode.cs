@@ -7,6 +7,8 @@ namespace QuandlCS.Types
   /// </summary>
   public class Datacode
   {
+    #region Construction
+
     /// <summary>
     /// Constructor to instantiate a datacode object using the source and code
     /// for the data required.
@@ -38,6 +40,33 @@ namespace QuandlCS.Types
       Source = source;
       Code = code;
     }
+
+    /// <summary>
+    /// Constructor to instantiate a datacode object using the full datacode
+    /// </summary>
+    /// <example>
+    /// Datacode : "PRAGUESE\PX"
+    /// Source   : "PRAGUESE"
+    /// Code     : "PX"
+    /// </example>
+    /// <param name="datacode">The full datacode</param>
+    /// <param name="code">The character separating the source and the code</param>
+    public Datacode(string datacode, char separator)
+    {
+      var datacodeParts = datacode.Split(separator);
+
+      if (datacodeParts.Length != 2)
+      {
+        throw new ArgumentException("The datacode is not formated correctly and cannot be split", "datacode");
+      }
+
+      Source = datacodeParts[0];
+      Code = datacodeParts[1];
+    }
+
+    #endregion
+
+    #region Interface
 
     /// <summary>
     /// The source of the data
@@ -95,6 +124,10 @@ namespace QuandlCS.Types
       return string.Format(@"{0}{1}{2}", Source, separator, Code);
     }
 
+    #endregion
+
+    #region Implementation
+
     /// <summary>
     /// Validate that the code supplied is valid
     /// </summary>
@@ -105,15 +138,21 @@ namespace QuandlCS.Types
       foreach (char character in data)
       {
         if (((char.IsLetter(character) && char.IsUpper(character))
-          || (char.IsDigit(character))) == false)
+          || (char.IsDigit(character)) || char.IsPunctuation(character)) == false)
         {
           throw new ArgumentException("The code supplied contains invalid characters", propertyName);
         }
       }
     }
 
+    #endregion
+
+    #region Fields
+
     private string _source;
 
     private string _code;
+
+    #endregion
   }
 }
