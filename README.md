@@ -19,7 +19,6 @@ e.g.
 
 ```c#
 Datacode code = new Datacode("PRAGUESE", "PX"); // PRAGUESE is the source, PX is the datacode
-
 ```
 
 When used this class will validate that the source and code provided do not contain any invalid characters but will not validate that the code does exist.
@@ -45,21 +44,29 @@ The Transformations enum specifies which [transformation](http://www.quandl.com/
 The simplest and most useful request to be made is a download. 
 
 ```c#
-
 using System;
+using QuandlCS.Requests;
+using QuandlCS.Types;
 
-namespace HubertJ
+namespace QuandlCSTest
 {
   class Program
   {
     static void Main(string[] args)
     {
-      Console.WriteLine("Hello, World!");
-      Console.ReadKey();
+      QuandlDownloadRequest request = new QuandlDownloadRequest();
+      request.APIKey = "1234-FAKE-KEY-4321";
+      request.Datacode = new Datacode("PRAGUESE", "PX"); // PRAGUESE is the source, PX is the datacode
+      request.Format = FileFormats.JSON;
+      request.Frequency = Frequencies.Monthly;
+      request.Truncation = 150;
+      request.Sort = SortOrders.Ascending;
+      request.Transformation = Transformations.Difference;
+
+      Console.WriteLine("The request string is : {0}", request.ToRequestString());
     }
   }
 }
-
 ```
 
 :koala:
