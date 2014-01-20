@@ -2,7 +2,9 @@
 
 ***
 
-QuandlCS is a simple wrapper around the Quandl API to provide easy access. The library currently provides download functionality supporting simple, multiset, favourite, metadata and search request downloads. Started as part of my attempt to challenge myself with [Project365](http://staticcast.wordpress.com/2013/12/28/programming-365/)  
+QuandlCS is a simple wrapper around the Quandl API to provide easy access. The library currently provides download functionality supporting simple, multiset, favourite, metadata and search request downloads. 
+
+Started as a project in an attempt at my colleagues [Project365](http://staticcast.wordpress.com/2013/12/28/programming-365/)  
 
 Visit the [online reference](http://www.quandl.com/help/api) for more information about the Quandl API.
 
