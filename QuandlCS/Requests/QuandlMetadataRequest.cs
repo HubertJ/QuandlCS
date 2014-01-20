@@ -9,7 +9,7 @@ namespace QuandlCS.Requests
   /// <summary>
   /// A class to represent a metadata request from Quandl
   /// </summary>
-  public class QuandlMetadataRequest : IQuandlGETRequestBuilder
+  public class QuandlMetadataRequest : IQuandlRequest
   {
     #region Construction
 
@@ -45,22 +45,29 @@ namespace QuandlCS.Requests
       Format = FileFormats.JSON;
     }
 
-    #endregion
-
-    #region IQuandlGETRequestBuilder
-
     /// <summary>
     /// Get the download request string
     /// </summary>
     /// <returns>The download request string</returns>
-    public string GetGETRequestString()
+    public string ToRequestString()
     {
-      return CreateRequestString();
+      string request = string.Empty;
+
+      try
+      {
+        request = CreateRequestString();
+      }
+      catch (Exception ex)
+      {
+        throw new InvalidOperationException("Cannot create request string in the current state", ex);
+      }
+
+      return request;
     }
 
     #endregion
     
-    #region QuandlDownloadRequest Members
+    #region QuandlMetadataRequest Members
 
     /// <summary>
     /// The datacode 
@@ -115,7 +122,7 @@ namespace QuandlCS.Requests
       StringBuilder sb = new StringBuilder();
       sb.Append(Constants.APIDatasetsAddress)
         .Append('/')
-        .Append(_datacode.GetDatacode('/'))
+        .Append(_datacode.ToDatacodeString('/'))
         .Append(TypeConverter.FileFormatToString(_format))
         .Append('?');
 

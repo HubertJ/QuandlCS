@@ -4,11 +4,11 @@ using QuandlCS.Interfaces;
 
 namespace QuandlCS.Requests
 {
-  public class QuandlUploadRequest : IQuandlPOSTRequestBuilder
+  public class QuandlUploadRequest : IQuandlUploadRequest
   {
     #region IQuandlPOSTRequestBuilder Members
 
-    public string GetPOSTRequestString()
+    public string ToRequestString()
     {
       return Constants.APIDatasetsImportAddress;
     }

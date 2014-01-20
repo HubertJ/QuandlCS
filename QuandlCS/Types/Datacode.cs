@@ -19,9 +19,8 @@ namespace QuandlCS.Types
     /// Code     : "PX"
     /// </example>
     public Datacode()
+      : this(string.Empty, string.Empty)
     {
-      Source = string.Empty;
-      Code = string.Empty;
     }
 
     /// <summary>
@@ -37,8 +36,8 @@ namespace QuandlCS.Types
     /// <param name="code">The code to identify the data</param>
     public Datacode(string source, string code)
     {
-      Source = source;
-      Code = code;
+      _source = source;
+      _code = code;
     }
 
     /// <summary>
@@ -119,9 +118,32 @@ namespace QuandlCS.Types
     /// <summary>
     /// The full unique datacode containing the Source and Code
     /// </summary>
-    public string GetDatacode(char separator)
+    public string ToDatacodeString(char separator)
     {
+      try
+      {
+        Validate("Source", _source);
+        Validate("Code", _code);
+      }
+      catch (Exception ex)
+      {
+        throw new InvalidOperationException("Unable to convert datacode to string in the current state", ex);
+      }
+
       return string.Format(@"{0}{1}{2}", Source, separator, Code);
+    }
+
+    /// <summary>
+    /// Checks whether this datacode object is in a valid state
+    /// </summary>
+    /// <returns>True if valid, otherwise false</returns>
+    public bool IsValid()
+    {
+      if (CheckValid(_source) == false || CheckValid(_code) == false)
+      {
+        return false;
+      }
+      return true;
     }
 
     #endregion
@@ -135,14 +157,33 @@ namespace QuandlCS.Types
     /// <param name="data">The data being set</param>
     private void Validate(string propertyName, string data)
     {
+      if (CheckValid(data) == false)
+      {
+        throw new ArgumentException("The value supplied contains invalid characters", propertyName);
+      }
+    }
+
+    /// <summary>
+    /// Checks whether the data supplied is valid
+    /// </summary>
+    /// <param name="data">The data to validate</param>
+    /// <returns>True if valid, otherwise false</returns>
+    private bool CheckValid(string data)
+    {
+      if (string.IsNullOrWhiteSpace(data) == true)
+      {
+        return false;
+      }
+
       foreach (char character in data)
       {
         if (((char.IsLetter(character) && char.IsUpper(character))
           || (char.IsDigit(character)) || char.IsPunctuation(character)) == false)
         {
-          throw new ArgumentException("The code supplied contains invalid characters", propertyName);
+          return false;
         }
       }
+      return true;
     }
 
     #endregion

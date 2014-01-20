@@ -9,7 +9,7 @@ using QuandlCS.Types;
 
 namespace QuandlCS.Requests
 {
-  public class QuandlMultisetRequest : IQuandlGETRequestBuilder
+  public class QuandlMultisetRequest : IQuandlRequest
   {
     #region Construction
 
@@ -23,17 +23,8 @@ namespace QuandlCS.Requests
 
     #endregion
 
-    #region IQuandlGETRequestBuilder Members
-
-    public string GetGETRequestString()
-    {
-      return CreateRequestString();
-    }
-
-    #endregion
-
-    #region IQuandlRequestBuilder Members
-
+    #region IQuandlRequest Members
+    
     /// <summary>
     /// The API key to use for the request
     /// </summary>
@@ -43,6 +34,10 @@ namespace QuandlCS.Requests
       set;
     }
 
+    /// <summary>
+    /// Reset the object to be used again
+    /// </summary>
+    /// <param name="resetAPIKey">Flag to specify if the API key should be reset</param>
     public void Reset(bool resetAPIKey)
     {
       if (resetAPIKey)
@@ -53,10 +48,29 @@ namespace QuandlCS.Requests
       _datacolumns = new StringBuilder();
     }
 
+    /// <summary>
+    /// Returns the request string
+    /// </summary>
+    /// <returns>The request string</returns>
+    public string ToRequestString()
+    {
+      string request = string.Empty;
+
+      try
+      {
+        request = CreateRequestString();
+      }
+      catch (Exception ex)
+      {
+        throw new InvalidOperationException("Cannot create request string in the current state", ex);
+      }
+
+      return request;
+    }
+
     #endregion
-
-
-    #region QuandlDownloadRequest Members
+    
+    #region QuandlMultisetRequest Members
 
     /// <summary>
     /// Add a column to the collection of columns to be returned
@@ -69,7 +83,7 @@ namespace QuandlCS.Requests
       {
         _datacolumns.Append(',');
       }
-      _datacolumns.Append(string.Format("{0}.{1}", datasource.GetDatacode('.'), column));
+      _datacolumns.Append(string.Format("{0}.{1}", datasource.ToDatacodeString('.'), column));
     }
 
     /// <summary>
@@ -82,7 +96,7 @@ namespace QuandlCS.Requests
       {
         _datacolumns.Append(',');
       }
-      _datacolumns.Append(datasource.GetDatacode('.'));
+      _datacolumns.Append(datasource.ToDatacodeString('.'));
     }
 
     /// <summary>

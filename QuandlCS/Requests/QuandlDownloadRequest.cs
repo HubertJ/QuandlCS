@@ -10,7 +10,7 @@ namespace QuandlCS.Requests
   /// <summary>
   /// The class to represent a download request from Quandl
   /// </summary>
-  public class QuandlDownloadRequest : IQuandlGETRequestBuilder
+  public class QuandlDownloadRequest : IQuandlRequest
   {
     #region Construction
 
@@ -44,7 +44,7 @@ namespace QuandlCS.Requests
 
       Datacode = new Datacode();
       StartDate = DateTime.MinValue;
-      EndDate = DateTime.MinValue;
+      EndDate = DateTime.MaxValue;
       Frequency = Frequencies.None;
       Transformation = Transformations.None;
       Truncation = 0;
@@ -52,17 +52,24 @@ namespace QuandlCS.Requests
       Headers = true;
     }
 
-    #endregion
-
-    #region IQuandlGETRequestBuilder
-
     /// <summary>
     /// Get the download request string
     /// </summary>
     /// <returns>The download request string</returns>
-    public string GetGETRequestString()
+    public string ToRequestString()
     {
-      return CreateRequestString();
+      string request = string.Empty;
+
+      try
+      {
+        request = CreateRequestString();
+      }
+      catch (Exception ex)
+      {
+        throw new InvalidOperationException("Creating the request string is not possible whilst the request is in the current state", ex);
+      }
+
+      return request;
     }
 
     #endregion
@@ -74,18 +81,8 @@ namespace QuandlCS.Requests
     /// </summary>
     public Datacode Datacode
     {
-      get 
-      {
-        return _datacode; 
-      }
-
-      set
-      {
-        if (_datacode != value)
-        {
-          _datacode = value;
-        }
-      }
+      get;
+      set;
     }
 
     /// <summary>
@@ -93,18 +90,8 @@ namespace QuandlCS.Requests
     /// </summary>
     public FileFormats Format
     {
-      get 
-      {
-        return _format; 
-      }
-
-      set
-      {
-        if (_format != value)
-        {
-          _format = value;
-        }
-      }
+      get;
+      set;
     }
 
     /// <summary>
@@ -139,8 +126,23 @@ namespace QuandlCS.Requests
     /// </summary>
     public int Truncation
     {
-      get;
-      set;
+      get
+      {
+        return _truncation;
+      }
+
+      set
+      {
+        if (CheckValidTruncation(value) == false)
+        {
+          throw new ArgumentOutOfRangeException("The truncation supplied is invalid. The value must be greater than or equal to 0", "Truncation");
+        }
+
+        if (_truncation != value)
+        {
+          _truncation = value;
+        }
+      }
     }
 
     /// <summary>
@@ -148,15 +150,8 @@ namespace QuandlCS.Requests
     /// </summary>
     public DateTime StartDate
     {
-      get
-      {
-        return _startDate;
-      }
-
-      set
-      {
-        _startDate = value;
-      }
+      get;
+      set;
     }
 
     /// <summary>
@@ -164,15 +159,8 @@ namespace QuandlCS.Requests
     /// </summary>
     public DateTime EndDate
     {
-      get
-      {
-        return _endDate;
-      }
-
-      set
-      {
-        _endDate = value;  
-      }
+      get;
+      set;
     }
 
     /// <summary>
@@ -195,8 +183,8 @@ namespace QuandlCS.Requests
       StringBuilder sb = new StringBuilder();
       sb.Append(Constants.APIDatasetsAddress)
         .Append('/')
-        .Append(_datacode.GetDatacode('/'))
-        .Append(TypeConverter.FileFormatToString(_format))
+        .Append(Datacode.ToDatacodeString('/'))
+        .Append(TypeConverter.FileFormatToString(Format))
         .Append('?');      
 
       if (APIKey != string.Empty)
@@ -222,18 +210,18 @@ namespace QuandlCS.Requests
           .Append(Truncation);
       }
 
-      if (_startDate != DateTime.MinValue)
+      if (StartDate != DateTime.MinValue)
       {
         sb.Append('&')
           .Append(Constants.APIStartDate)
-          .Append(TypeConverter.DateToString(_startDate));
+          .Append(TypeConverter.DateToString(StartDate));
       }
 
-      if (_endDate != DateTime.MinValue)
+      if (EndDate != DateTime.MaxValue)
       {
         sb.Append('&')
           .Append(Constants.APIEndDate)
-          .Append(TypeConverter.DateToString(_endDate));
+          .Append(TypeConverter.DateToString(EndDate));
       }
 
       if (Format == FileFormats.CSV)
@@ -246,28 +234,48 @@ namespace QuandlCS.Requests
       return sb.ToString();
     }
 
+    /// <summary>
+    /// Validate the data and throw an exception if errors found
+    /// </summary>
     private void ValidateData()
     {
-      if (string.IsNullOrWhiteSpace(_datacode.Source))
+      if (CheckValidDates() == false)
       {
-        throw new InvalidOperationException("The datacode for this request does not have a Source specified.");
+        throw new InvalidOperationException("The start date of the data window must be before the end date");
       }
 
-      if (string.IsNullOrWhiteSpace(_datacode.Code))
+      if (CheckValidTruncation(_truncation) == false)
       {
-        throw new InvalidOperationException("The datacode for this request does not have a Code specified.");
+        throw new InvalidOperationException("The truncation supplied is invalid");
       }
+    }
+
+    /// <summary>
+    /// Validates that the dates are correct. That is, the end date must 
+    /// come after the start date.
+    /// </summary>
+    /// <returns>True if valid, otherwise false</returns>
+    private bool CheckValidDates()
+    {
+      return StartDate < EndDate;
+    }
+
+    /// <summary>
+    /// Checks that the supplied truncation value is valid. That is it is 
+    /// greater than or equal to 0. 
+    /// </summary>
+    /// <param name="truncation"></param>
+    /// <returns></returns>
+    private bool CheckValidTruncation(int truncation)
+    {
+      return truncation > -1;
     }
 
     #endregion
 
     #region Fields
 
-    private Datacode _datacode;
-    private FileFormats _format;
-
-    private DateTime _startDate;
-    private DateTime _endDate;
+    private int _truncation;
         
     #endregion
   }

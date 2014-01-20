@@ -15,18 +15,18 @@ namespace QuandlCS.Connection
   {
     #region IQuandlConnection Members
 
-    public string Get(IQuandlGETRequestBuilder request)
+    private string Get(IQuandlRequest request)
     {
       string data = string.Empty;
       using (WebClient client = new WebClient())
       {
-        string requestString = request.GetGETRequestString();
+        string requestString = request.ToRequestString();
         data = client.DownloadString(requestString);
       }
       return data;
     }
 
-    public string Post(IQuandlPOSTRequestBuilder request)
+    private string Post(IQuandlUploadRequest request)
     {
       throw new InvalidOperationException("THIS DOESN'T WORK AT THE MOMENT");
 
@@ -40,17 +40,17 @@ namespace QuandlCS.Connection
       //return data;
     }
 
-    public string Request(IQuandlRequestBuilder request)
+    public string Request(IQuandlRequest request)
     {
       string data = string.Empty;
-      if (request is IQuandlGETRequestBuilder)
+      if (request is IQuandlRequest)
       {
-        var requestGET = request as IQuandlGETRequestBuilder;
+        var requestGET = request as IQuandlRequest;
         data = Get(requestGET);
       }
-      else if (request is IQuandlPOSTRequestBuilder)
+      else if (request is IQuandlUploadRequest)
       {
-        var requestPOST = request as IQuandlPOSTRequestBuilder;
+        var requestPOST = request as IQuandlUploadRequest;
         data = Post(requestPOST);
       }
       else

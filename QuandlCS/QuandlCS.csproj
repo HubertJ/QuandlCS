@@ -63,9 +63,8 @@
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\TypeConverter.cs" />
     <Compile Include="Interfaces\IQuandlConnection.cs" />
-    <Compile Include="Interfaces\IQuandlGETRequestBuilder.cs" />
-    <Compile Include="Interfaces\IQuandlPOSTRequestBuilder.cs" />
-    <Compile Include="Interfaces\IQuandlRequestBuilder.cs" />
+    <Compile Include="Interfaces\IQuandlUploadRequest.cs" />
+    <Compile Include="Interfaces\IQuandlRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\QuandlDownloadRequest.cs" />
     <Compile Include="Requests\QuandlFavouritesRequest.cs" />

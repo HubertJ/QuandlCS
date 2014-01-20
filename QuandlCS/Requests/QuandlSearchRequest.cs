@@ -6,7 +6,7 @@ using QuandlCS.Types;
 
 namespace QuandlCS.Requests
 {
-  public class QuandlSearchRequest : IQuandlGETRequestBuilder
+  public class QuandlSearchRequest : IQuandlRequest
   {
     #region Construction
 
@@ -42,17 +42,24 @@ namespace QuandlCS.Requests
       SearchQuery = string.Empty;
     }
 
-    #endregion
-
-    #region IQuandlGETRequestBuilder
-    
     /// <summary>
     /// Get the download request string
     /// </summary>
     /// <returns>The download request string</returns>
-    public string GetGETRequestString()
+    public string ToRequestString()
     {
-      return CreateRequestString();
+      string request = string.Empty;
+
+      try
+      {
+        request = CreateRequestString();
+      }
+      catch (Exception ex)
+      {
+        throw new InvalidOperationException("Cannot create request string in the current state", ex);
+      }
+
+      return request;
     }
 
     #endregion
