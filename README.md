@@ -2,12 +2,12 @@
 
 ***
 
-QuandlCS is a simple wrapper around the Quandl API to provide easy access. The library currently provides download functionality supporting simple, multiset, favourite, metadata and search request downloads.
+QuandlCS is a simple wrapper around the Quandl API to provide easy access. The library currently provides download functionality supporting simple, multiset, favourite, metadata and search request downloads. Started as part of my attempt to challenge myself with [Project365](http://staticcast.wordpress.com/2013/12/28/programming-365/)  
 
 Visit the [online reference](http://www.quandl.com/help/api) for more information about the Quandl API.
 
 ### Tutorial
-The CS API is simple to use and provides type safety garuantees and basic validation on data before requesting. Interaction is based around the concept of a request with all download requests implementing a single interface. Once a request is created this can be used with the QuandlConnect object to download and return the data or to generate the request string URL (`www.quandl.com/api/v1/datasets/PRAGUESE/PX.json`) to handle manually. 
+The CS API is simple to use and provides type safety garuantees and basic validation on data before requesting. Interaction is based around the concept of a request with all download requests implementing a single interface. Once a request is created this can be used with the QuandlConnection object to download and return the data or to generate the request string URL (`www.quandl.com/api/v1/datasets/PRAGUESE/PX.json`) to handle manually. 
 
 #### Types
 The API has a few fundamental types that mimick Quandl variables and options. 
@@ -126,5 +126,88 @@ namespace QuandlCSTest
   }
 }
 ```
+
+#### Favourites Download
+The favourites download is used to gather information about the current user (as specified through the required API key) and which datasets are their favourites. I imagine this would be useful if you were to write a desktop application to allow users to manage their Quandl data... that's what I am planning to use it for.
+
+```c#
+using System;
+using QuandlCS.Requests;
+using QuandlCS.Types;
+
+namespace QuandlCSTest
+{
+  class Program
+  {
+    static void Main(string[] args)
+    {
+      QuandlFavouritesRequest request = new QuandlFavouritesRequest();
+      request.APIKey = "1234-FAKE-KEY-4321";
+      request.Format = FileFormats.XML;
+
+      Console.WriteLine("The request string is : {0}", request.ToRequestString());
+    }
+  }
+}
+```
+
+#### Search
+The search is pretty self explanatory in terms of what it is for... 
+
+```c#
+using System;
+using QuandlCS.Requests;
+using QuandlCS.Types;
+
+namespace QuandlCSTest
+{
+  class Program
+  {
+    static void Main(string[] args)
+    {
+      QuandlSearchRequest request = new QuandlSearchRequest();
+      request.APIKey = "1234-FAKE-KEY-4321";
+      request.Format = FileFormats.XML;
+      request.SearchQuery = "OIL";
+
+      Console.WriteLine("The request string is : {0}", request.ToRequestString());
+    }
+  }
+}
+```
+
+#### QuandlConnection
+In order to make using the request objects easier there is also a QuandlConnection class that will take in any of the requests and then download the data returning it as a string to the caller...
+
+
+```c#
+using System;
+using System.IO;
+using QuandlCS.Connection;
+using QuandlCS.Interfaces;
+using QuandlCS.Requests;
+using QuandlCS.Types;
+
+namespace QuandlCSTest
+{
+  class Program
+  {
+    static void Main(string[] args)
+    {
+      IQuandlRequest request = CreateRequest(); // Implementation of CreateRequest() left as a challenge to the reader
+
+      IQuandlConnection connection = new QuandlConnection();
+      string data = connection.Request(request);
+      using (StreamWriter writer = new StreamWriter(@"C:\TestOutput.xml"))
+      {
+        writer.Write(data);
+      }     
+    }
+  }
+}
+```
+
+
+
 
 :koala:
