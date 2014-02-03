@@ -54,7 +54,7 @@ namespace QuandlCSTests
         Code = "PX"
       };
 
-      Assert.AreEqual("PRAGUESE/PX", datacode.GetDatacode('/'), "The unique code should be the Source and Code separated by a forward slash");
+      Assert.AreEqual("PRAGUESE/PX", datacode.ToDatacodeString('/'), "The unique code should be the Source and Code separated by a forward slash");
     }
   }
 }

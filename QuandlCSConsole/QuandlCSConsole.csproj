@@ -44,8 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arguments.cs" />
+    <Compile Include="ProgramArguments\Arguments.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProgramArguments\FavouritesVerb.cs" />
+    <Compile Include="ProgramArguments\MetadataVerb.cs" />
+    <Compile Include="ProgramArguments\DownloadVerb.cs" />
+    <Compile Include="ProgramArguments\SearchVerb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

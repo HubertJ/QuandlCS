@@ -10,30 +10,30 @@ namespace QuandlCSTests
   {
     [TestMethod]
     [ExpectedException(typeof(InvalidOperationException))]
-    public void InvalidDatacodeSource_ThrowsException()
+    public void ToRequestString_InvalidDatacodeSource_ExceptionThrown()
     {
       var request = new QuandlDownloadRequest()
       {
         Datacode = new Datacode(string.Empty, "DW")
       };
 
-      request.GetGETRequestString();
+      request.ToRequestString();
     }
 
     [TestMethod]
     [ExpectedException(typeof(InvalidOperationException))]
-    public void InvalidDatacodeCode_ThrowsException()
+    public void ToRequestString_InvalidDatacodeCode_ExceptionThrown()
     {
       var request = new QuandlDownloadRequest()
       {
         Datacode = new Datacode("DW", string.Empty)
       };
 
-      request.GetGETRequestString();
+      request.ToRequestString();
     }
 
     [TestMethod]
-    public void ValidTruncation_UsedInRequestString()
+    public void ToRequestString_ValidTruncation_UsedInRequestString()
     {
       var request = new QuandlDownloadRequest()
       {
@@ -41,12 +41,12 @@ namespace QuandlCSTests
         Truncation = 1
       };
 
-      var requestString = request.GetGETRequestString();
+      var requestString = request.ToRequestString();
       Assert.IsTrue(requestString.Contains("&rows=1"));
     }
 
     [TestMethod]
-    public void ZeroTruncation_NotUsedInRequestString()
+    public void ToRequestString_ZeroTruncation_NotUsedInRequestString()
     {
       var request = new QuandlDownloadRequest()
       {
@@ -54,12 +54,25 @@ namespace QuandlCSTests
         Truncation = 0
       };
 
-      var requestString = request.GetGETRequestString();
+      var requestString = request.ToRequestString();
       Assert.IsFalse(requestString.Contains("&rows=0"));
     }
 
     [TestMethod]
-    public void CSVFormat_HeadersUsedInRequestString()
+    public void ToRequestString_InvalidTruncation_ExceptionThrown()
+    {
+      var request = new QuandlDownloadRequest()
+      {
+        Datacode = new Datacode("DW", "TEST"),
+        Truncation = 0
+      };
+
+      var requestString = request.ToRequestString();
+      Assert.IsFalse(requestString.Contains("&rows=0"));
+    }
+
+    [TestMethod]
+    public void ToRequestString_CSVFormat_HeadersUsedInRequestString()
     {
       var request = new QuandlDownloadRequest()
       {
@@ -67,12 +80,12 @@ namespace QuandlCSTests
         Format = FileFormats.CSV
       };
 
-      var requestString = request.GetGETRequestString();
+      var requestString = request.ToRequestString();
       Assert.IsTrue(requestString.Contains("&exclude_headers="));
     }
 
     [TestMethod]
-    public void NonCSVFormat_HeadersNotUsedInRequestString()
+    public void ToRequestString_NonCSVFormat_HeadersNotUsedInRequestString()
     {
       var request = new QuandlDownloadRequest()
       {
@@ -80,8 +93,21 @@ namespace QuandlCSTests
         Format = FileFormats.HTML
       };
 
-      var requestString = request.GetGETRequestString();
+      var requestString = request.ToRequestString();
       Assert.IsFalse(requestString.Contains("&exclude_headers="));
+    }
+
+    [TestMethod]
+    public void ToRequestString_StartDateBeforeEndDate_ExceptionNotThrown()
+    {
+      var request = new QuandlDownloadRequest()
+      {
+        Datacode = new Datacode("DW", "TEST"),
+        StartDate = DateTime.Now.AddDays(-10), 
+        EndDate = DateTime.Now.AddDays(10)     // End 20 days after start
+      };
+
+      var requestString = request.ToRequestString();
     }
   }
 }

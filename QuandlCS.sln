@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuandlCS", "QuandlCS\Quandl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuandlCSTests", "QuandlCSTests\QuandlCSTests.csproj", "{DFF7CD41-FFEC-4BD9-A16F-1FF027E395FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuandlCSConsole", "QuandlCSConsole\QuandlCSConsole.csproj", "{C687B2EC-B530-44D0-96B0-CF6D15FA0111}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{DFF7CD41-FFEC-4BD9-A16F-1FF027E395FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFF7CD41-FFEC-4BD9-A16F-1FF027E395FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFF7CD41-FFEC-4BD9-A16F-1FF027E395FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C687B2EC-B530-44D0-96B0-CF6D15FA0111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C687B2EC-B530-44D0-96B0-CF6D15FA0111}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C687B2EC-B530-44D0-96B0-CF6D15FA0111}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C687B2EC-B530-44D0-96B0-CF6D15FA0111}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
