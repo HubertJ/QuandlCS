@@ -32,8 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ProgramArgumentsCS">
-      <HintPath>..\..\ProgramArgumentsCS\ProgramArgumentsCS\bin\Debug\ProgramArgumentsCS.dll</HintPath>
+    <Reference Include="ProgramArgumentsCS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dependencies\Debug\ProgramArgumentsCS.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -60,6 +61,10 @@
       <Project>{3839aea2-4391-4d52-9811-e3fb8937eafa}</Project>
       <Name>QuandlCS</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Dependencies\Debug\ProgramArgumentsCS.dll" />
+    <Content Include="Dependencies\Debug\ProgramArgumentsCS.pdb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
