@@ -60,6 +60,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\QuandlConnection.cs" />
+    <Compile Include="DataTyping\ColumnAttribute.cs" />
+    <Compile Include="DataTyping\ColumnExtractor.cs" />
+    <Compile Include="DataTyping\DatasetAttribute.cs" />
+    <Compile Include="DataTyping\DatasetDownloader.cs" />
+    <Compile Include="DataTyping\DownloadOptions.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\TypeConverter.cs" />
     <Compile Include="Interfaces\IQuandlConnection.cs" />

@@ -1,4 +1,4 @@
-## QuandlCS
+## QuandlCS - TypedDatasets Branch
 
 ***
 
@@ -7,6 +7,11 @@ QuandlCS is a simple wrapper around the Quandl API to provide easy access. The l
 Started as a project in an attempt at my colleagues [Project365](http://staticcast.wordpress.com/2013/12/28/programming-365/)  
 
 Visit the [online reference](http://www.quandl.com/help/api) for more information about the Quandl API.
+
+This branch is an experimental feature to allow for typed datasets. It was originally based on something I had been working on for a potential Upload API but was shelved as the Upload API was taken offline. 
+
+I would not recommend using this in anything important. The error handling is non existent and there are a few bugs that I know of and probably many more that I don't.
+
 
 ### Tutorial
 The CS API is simple to use and provides type safety garuantees and basic validation on data before requesting. Interaction is based around the concept of a request with all download requests implementing a single interface. Once a request is created this can be used with the QuandlConnection object to download and return the data or to generate the request string URL (`www.quandl.com/api/v1/datasets/PRAGUESE/PX.json`) to handle manually. 
@@ -208,6 +213,66 @@ namespace QuandlCSTest
   }
 }
 ```
+
+#### TypedDatasets
+This is an experimental feature to allow for type safety of downloaded data. Use with caution.
+
+The idea behind how this works is that the user of API will create a new class to represent the data they will be downloading. As part of this they will apply special attributes to the class so that we can link the downloaded unsafe data to the typed object. 
+
+
+###### DatasetAttribute
+The Dataset attribute contains the details of the Quandl dataset the class is associated with. Currently this is only required if using the DatasetDownloader. 
+
+###### ColumnAttribute
+The Column attribute contains the details of the column that this property matches to. This is required by both the DatsetDownloader and the ColumnExtractor. 
+
+This is based on the assumption that each dataset will have unique names for each of the columns... I am not sure if that is true so this is one of the things that may change in the future.
+
+
+
+Below is an example dataset class 
+
+
+```c#
+using System;
+using QuandlCS.DataTyping;
+
+namespace QuandlTypedData
+{
+  [Dataset("USD vs AUD", "QUANDL", "USDAUD")]
+  public class USDAUD
+  {
+    [Column("Date")]
+    public DateTime Date
+    {
+      get;
+      set;
+    }
+
+    [Column("Rate")]
+    public double Rate
+    {
+      get;
+      set;
+    }
+
+    [Column("High (est)")]
+    public double High
+    {
+      get;
+      set;
+    }
+
+    [Column("Low (est)")]
+    public double Low
+    {
+      get;
+      set;
+    }
+  }
+}
+```
+
 
 
 
