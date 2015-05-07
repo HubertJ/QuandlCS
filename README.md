@@ -6,7 +6,7 @@ QuandlCS is a simple wrapper around the Quandl API to provide easy access. The l
 
 Started as a project in an attempt at my colleagues [Project365](http://staticcast.wordpress.com/2013/12/28/programming-365/)  
 
-Visit the [online reference](http://www.quandl.com/help/api) for more information about the Quandl API.
+Visit the [online reference](https://www.quandl.com/help/api) for more information about the Quandl API.
 
 ### Tutorial
 The CS API is simple to use and provides type safety garuantees and basic validation on data before requesting. Interaction is based around the concept of a request with all download requests implementing a single interface. Once a request is created this can be used with the QuandlConnection object to download and return the data or to generate the request string URL (`www.quandl.com/api/v1/datasets/PRAGUESE/PX.json`) to handle manually. 
@@ -25,11 +25,11 @@ When used this class will validate that the source and code provided do not cont
 
 
 ###### FileFormats
-The FileFormats enum represents each of the available [output formats](http://www.quandl.com/help/api#Basic+Principles) from the Quandl API. Not all of the formats will be valid for each of the different requests. (e.g. Metadata requests are only available in XML and JSON formats... this is validated by the QuandlMetadataRequest class when used)
+The FileFormats enum represents each of the available [output formats](https://www.quandl.com/help/api#Data-Formats) from the Quandl API. Not all of the formats will be valid for each of the different requests. (e.g. Metadata requests are only available in XML and JSON formats... this is validated by the QuandlMetadataRequest class when used)
 
 
 ###### Frequencies
-The Frequencies enum is used to specify which [frequency collapse](http://www.quandl.com/help/api#Frequency+Collapsing) is required for the dataset being downloaded.
+The Frequencies enum is used to specify which [frequency collapse](https://www.quandl.com/help/api#Data-Manipulation) is required for the dataset being downloaded.
 
 
 ###### SortOrders
@@ -37,7 +37,7 @@ The SortOrders enum, as you can probably imagine, specified if the data should b
 
 
 ###### Transformations
-The Transformations enum specifies which [transformation](http://www.quandl.com/help/api#Transformations) should be applied to the before downloading. 
+The Transformations enum specifies which [transformation](https://www.quandl.com/help/api#Data-Manipulation) should be applied to the before downloading. 
 
 
 #### Download

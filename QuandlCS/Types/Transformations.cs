@@ -6,7 +6,7 @@ namespace QuandlCS.Types
   /// returning the results of the request.
   /// 
   /// More information about transformations can be found at:
-  /// http://www.quandl.com/help/api#Transformations
+  /// https://www.quandl.com/help/api#Data-Manipulation
   /// </summary>
   public enum Transformations
   {

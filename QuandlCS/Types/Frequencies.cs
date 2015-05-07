@@ -6,7 +6,7 @@ namespace QuandlCS.Types
   /// request from Quandl.
   /// 
   /// More information about file formats can be found at:
-  /// http://www.quandl.com/help/api#Frequency+Collapsing
+  /// https://www.quandl.com/help/api#Data-Manipulation
   /// </summary>
   public enum Frequencies
   {
