@@ -10,10 +10,10 @@ namespace QuandlCS.Helpers
   {
     #region Addresses 
 
-    internal const string APIMultisetsAddress      = "http://www.quandl.com/api/v1/multisets";
-    internal const string APIDatasetsAddress       = "http://www.quandl.com/api/v1/datasets";
-    internal const string APIDatasetsImportAddress = "http://www.quandl.com/api/v1/datasets/import";
-    internal const string APIFavouritesAddress     = "http://www.quandl.com/api/v1/current_user/collections/datasets/favourites";
+    internal const string APIMultisetsAddress      = "https://www.quandl.com/api/v1/multisets";
+    internal const string APIDatasetsAddress       = "https://www.quandl.com/api/v1/datasets";
+    internal const string APIDatasetsImportAddress = "https://www.quandl.com/api/v1/datasets/import";
+    internal const string APIFavouritesAddress     = "https://www.quandl.com/api/v1/current_user/collections/datasets/favourites";
 
     #endregion
 

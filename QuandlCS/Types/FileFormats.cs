@@ -6,7 +6,7 @@ namespace QuandlCS.Types
   /// should be returned in. 
   /// 
   /// More information about file formats can be found at:
-  /// http://www.quandl.com/help/api#Download
+  /// https://www.quandl.com/help/api#Data-Formats
   /// </summary>
   public enum FileFormats
   {
